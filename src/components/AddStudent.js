@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import {SERVER_URL} from '../constants.js'
+import Grid from '@mui/material/Grid';
+import {DataGrid} from '@mui/x-data-grid';
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,6 +18,36 @@ class AddStudent extends Component {
         super(props);
         this.state = {open: false, student:{ name: null, email: null, statusCode: 0, status: "CLEAR"}};
     };
+
+
+addStudent = (student) => {
+  const token = Cookies.get('XSRF-TOKEN');
+
+  fetch(`${SERVER_URL}/student`,
+    { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json',
+                 'X-XSRF-TOKEN': token  }, 
+      body: JSON.stringify(student)
+    })
+  .then(res => {
+      if (res.ok) {
+        toast.success("Student successfully added", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+      } else {
+        toast.error("Error when adding", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        console.error('Post http status =' + res.status);
+      }})
+  .catch(err => {
+    toast.error("Error when adding", {
+          position: toast.POSITION.BOTTOM_LEFT
+      });
+      console.error(err);
+  })
+} 
 
     handleClickOpen = () => {
         this.setState( {open:true} );
@@ -69,5 +104,6 @@ class AddStudent extends Component {
 AddStudent.propTypes = {
   addStudent : PropTypes.func.isRequired
 }
+
 
 export default AddStudent;
