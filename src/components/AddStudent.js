@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import 'react-toastify/dist/ReactToastify.css';
 
-// properties addStudent is required, function called when Add clicked.
 class AddStudent extends Component {
     constructor(props) {
         super(props);
