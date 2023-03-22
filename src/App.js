@@ -23,7 +23,6 @@ function App() {
         <Route exact path='/' component={Semester} />
         <Route path='/schedule' component={SchedList} />
         <Route path='/student' component={AddStudent} />
-
        </Switch>
       </BrowserRouter>
     </div>
